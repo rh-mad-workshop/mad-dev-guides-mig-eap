@@ -43,7 +43,7 @@ image::report_applifecycle_issues.png[Lifecycle Issues]
 
 To begin we are fixing the issues under the Monolith application. Click on `WebLogic ApplicationLifecycleListenerEvent[rule-id:xxx]` in _Hints_ of _StartupListener.java_ file:
 
-image::mta-issue-open-code.png[rhamt_project_issues, 900]
+image::mta-issue-open-code.png[mta_project_issues, 900]
 
 You can also navigate to the `cloud-native-workshop-v2m1-labs` folder in the project tree, then open the file `monolith/src/main/java/com/redhat/coolstore/utils/StartupListener.java` by clicking on it.
 
@@ -126,13 +126,13 @@ If it builds successfully (you will see `BUILD SUCCESS`), let’s move on to the
 
 You can review the changes you've made. On the left, click on the _Version Control_ icon, which shows a list of the changed files. Double-click on `StartupListener.java` to view the differences you've made:
 
-image::codeready-workspace-diffs.png[diffs, 800]
+image::ds-diffs.png[diffs, 800]
 
 VS Code keeps track (using Git) of the changes you make, and you can use version control to check in, update, and compare files as you change them.
 
 For now, go back to the _Explorer_ tree and lets fix the remaining issues.
 
-=== 5. Fix the logger issues
+== 3.6. Fix the logger issues
 
 [INFO]
 ====
@@ -210,7 +210,7 @@ public class OrderServiceMDB implements MessageListener {
 
 That one was pretty easy.
 
-== 3.6. Test the build
+== 3.7. Test the build
 
 Build and package the app again just as before:
 
@@ -222,7 +222,7 @@ mvn -f $PROJECT_SOURCE/monolith clean package
 
 If builds successfully (you will see `BUILD SUCCESS`), then let’s move on to the next issue! If it does not compile, verify you made all the changes correctly and try the build again.
 
-== 3.7. Remove the Weblogic EJB Descriptors
+== 3.8. Remove the Weblogic EJB Descriptors
 
 [INFO]
 ====
@@ -283,15 +283,15 @@ If you have the tab for the `weblogic-ejb-jar.xml` file open (or handy) you can 
 image:reveal_in_explorer.png[reveal-in-explorer, 600]
 ====
 
-image::codeready-workspace-delete-jar.png[codeready-workspace-convert, 500]
+image::ds-delete-jar.png[ds-convert, 500]
 
 While we’re at it, let’s remove the stub weblogic implementation classes added as part of the scenario.
 
 Whilst still in the Project Explorer, right-click on the `src/main/java/weblogic` folder and select *Delete* to delete the folder:
 
-image::codeready-workspace-delete-weblogic.png[codeready-workspace-convert, 500]
+image::ds-delete-weblogic.png[ds-convert, 500]
 
-== 3.8. Fix the code
+== 3.9. Fix the code
 
 Use kbd:[CTRL+p] (or kbd:[CMD+p] on a Mac) to Quickly Open the `monolith/src/main/java/com/redhat/coolstore/service/InventoryNotificationMDB.java` file and replace its contents with:
 
@@ -361,7 +361,7 @@ Lastly, remove Maven dependency on *org.jboss.spec.javax.rmi:jboss-rmi-api_1.0_s
 
 image::mta-remove-dependency.png[rhamt_rerun_analysis_report, 700]
 
-== 3.9. Test the build
+== 3.10. Test the build
 
 Build once again:
 
@@ -374,7 +374,7 @@ mvn -f $PROJECT_SOURCE/monolith clean package
 If builds successfully (you will see `BUILD SUCCESS`). If it does not compile, verify you
 made all the changes correctly and try the build again.
 
-== 3.10. Re-run the MTA report
+== 3.11. Re-run the MTA report
 
 In this step we will re-run the MTA report to verify our migration was successful.
 
@@ -392,13 +392,13 @@ If it is taking too long, feel free to skip the next section and proceed to step
 eliminated all the issues.
 ====
 
-== 3.11. View the results
+== 3.12. View the results
 
 Click on the latest result to go to the report web page and verify that it now reports 0 Story Points:
 
 You have successfully migrated this app to JBoss EAP, congratulations!
 
-image::rhamt_project_issues_story.png[rhamt_project_issues_story, 700]
+image::mta_project_issues_story.png[mta_project_issues_story, 700]
 
 [NOTE]
 ====
@@ -409,12 +409,12 @@ detail on Red Hat’s Application Migration strategies or contact your local Red
 can help you on your migration path.
 ====
 
-== 3.12. Test the application on JBoss EAP locally
+== 3.13. Test the application on JBoss EAP locally
 
 In this development environment (GitPod), a JBoss EAP server is already running with a PostgreSQL database. Click on `Start Wildfly server` terminal in the VS Code, take a look at if the EAP server is running properly:
 
 <p align="center">
-<img src="../img/2-eap-running.png" width=700 align=center>
+<img src="../img/eap-running.png" width=700 align=center>
 </p>
 
 image::eap-running.png[eap-running, 700]
@@ -430,7 +430,7 @@ cp $GITPOD_REPO_ROOT/target/ROOT.war /workspace/deployments/
 Go back to the `Start Wildfly server` terminal in GitPod where EAP was started for you, and you'll see `ROOT.war` is deployed:
 
 <p align="center">
-<img src="../img/2-eap-deployed.png" width=700 align=center>
+<img src="../img/eap-deployed.png" width=700 align=center>
 </p>
 
 image::eap-deployed.png[eap-deployed, 700]

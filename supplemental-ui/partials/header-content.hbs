@@ -3,8 +3,6 @@
     document.addEventListener('DOMContentLoaded', function () { 
       const urlParams = new URLSearchParams(window.location.search);
       const userId = urlParams.get('USERID');
-      const subDomain = urlParams.get('SUBDOMAIN');
-      const tomcatIP = urlParams.get('TOMCATIP');
       if (userId) {
         showUserId( userId );
       }
@@ -18,8 +16,6 @@
       document.getElementById('navbar-form-empty').style.display = "none";
       document.getElementById('navbar-form-filled').style.display = "flex";
       document.getElementById('username').textContent = userId;
-      document.getElementById('subDomain').value = subDomain;
-      document.getElementById('tomcatIP').value = tomcatIP;
 
     }
 
@@ -30,10 +26,8 @@
 
     function goWithUserId() {
       elUserIdInput = document.getElementById('userId');
-      elSubDomainInput = document.getElementById('subDomain');
-      elTomcatIPInput = document.getElementById('tomcatIP');
 
-      window.location.search = ('&USERID=' + elUserIdInput.value + '&SUBDOMAIN=' + elSubDomainInput.value + '&TOMCATIP=' + elTomcatIPInput.value);
+      window.location.search = ('&USERID=' + elUserIdInput.value);
     }
 
   </script>
@@ -61,8 +55,6 @@
               <span class="navbar-text" style="margin-left: 1rem; margin-right: 1rem;">|</span>
             </div>
             <input size="40" id="userId" type="text" placeholder="Enter USER ID">
-            <input type="hidden" id="subDomain" name="subDomain" value="">
-            <input type="hidden" id="tomcatIP" name="tomcatIP" value="">
           </form>
         </div>
         

@@ -129,14 +129,14 @@ image::mta-analysis-complete.png[MTA Add App, 900]
 
 == 2.5. Review the report
 
-image::rhamt_result_landing_page.png[MTA Langing Page, 900]
+image::mta_result_landing_page.png[MTA Langing Page, 900]
 
 The main landing page of the report lists the applications that were processed. Each row contains a high-level overview of the
 story points, number of incidents, and technologies encountered in that application.
 
 **Click on the `monolith` link** to access details for the project:
 
-image::rhamt_project_overview.png[MTA Project Overview, 900]
+image::mta_project_overview.png[MTA Project Overview, 900]
 
 == 2.6. Understanding the report
 
