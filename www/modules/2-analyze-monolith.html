@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>2. Analyze Monolith - 25 minutes :: Modern Application Development Roadshow - Dev Track</title>
+    <link rel="prev" href="1-introduction.html">
+    <link rel="next" href="3-migrate-to-eap.html">
+    <meta name="generator" content="Antora 3.1.5">
+    <link rel="stylesheet" href="../_/css/site.css">
+<link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com/en/technologies/cloud-computing/openshift" target="_blank"><img
+          src="../_/img/Logo-Red_Hat-OpenShift_4-A-Reverse-RGB.png" height="40px" alt="Red Hat OpenShift 4"></a>
+      <a class="navbar-item" href=".." style="color: white;"><h3>Modern Application Development Roadshow - Dev Track</h3></a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="modules" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html" class=" query-params-link">Modern Application Development Roadshow - Dev Track</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="1-introduction.html">Introduction</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="2-analyze-monolith.html">Analyze Monolith</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="3-migrate-to-eap.html">Migrate to EAP</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Modern Application Development Roadshow - Dev Track</span>
+    <span class="version">master</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">Modern Application Development Roadshow - Dev Track</span>
+      <ul class="versions">
+        <li class="version is-current">
+          <a href="index.html">master</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="1-introduction.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">Modern Application Development Roadshow - Dev Track</a></li>
+    <li><a href="2-analyze-monolith.html">Analyze Monolith</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="file:///antora/content/modules/ROOT/pages/2-analyze-monolith.adoc">Edit this Page</a></div>
+</div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">2. Analyze Monolith - 25 minutes</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this module you’ll work with an existing Java EE application designed for a retail webshop.  The current
+version of the webshop is a Java EE application built for Oracle Weblogic Application Server. As part of a modernization
+strategy you&#8217;ve decided to move this application to JBoss EAP, containerize it, and run it on a Kubernetes platform with OpenShift.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_what_is_migration_toolkit_for_applications"><a class="anchor" href="#_what_is_migration_toolkit_for_applications"></a>What is Migration Toolkit for Applications?</h3>
+<div class="imageblock">
+<div class="content">
+<img src="_images/mta_icon.png" alt="MTA Logo" width="300">
+</div>
+</div>
+<div class="paragraph">
+<p>Migration Toolkit for Applications (MTA) is an extensible and customizable rule-based tool that helps simplify migration of Java applications.</p>
+</div>
+<div class="paragraph">
+<p>It is used by organizations for:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Planning and work estimation</p>
+</li>
+<li>
+<p>Identifying migration issues and providing solutions</p>
+</li>
+<li>
+<p>Detailed reporting</p>
+</li>
+<li>
+<p>Built-in rules and migration paths</p>
+</li>
+<li>
+<p>Rule extensibility and customization</p>
+</li>
+<li>
+<p>Ability to analyze source code or application archives</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Read more about it in the <a href="https://access.redhat.com/documentation/en-us/migration_toolkit_for_applications/" target="_blank" rel="noopener">MTA documentation</a></p>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_2_1_analyze_app_using_mta_ide_plugin"><a class="anchor" href="#_2_1_analyze_app_using_mta_ide_plugin"></a>2.1. Analyze app using MTA IDE Plugin</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this step we will analyze a monolithic application built for use with Oracle WebLogic Server (WLS). This application is a Java
+EE application using a number of different technologies, including standard Java EE APIs as well as proprietary Weblogic APIs and
+best practices.</p>
+</div>
+<div class="paragraph">
+<p>For this lab, we will use the MTA <a href="https://access.redhat.com/documentation/en-us/migration_toolkit_for_applications/6.1/html-single/visual_studio_code_extension_guide/index" target="_blank" rel="noopener">Visual Studio Code Extension</a> based on Red Hat OpenShift Dev Spaces.</p>
+</div>
+<div class="paragraph">
+<p>The IDE Plugin for the Migration Toolkit for Applications provides assistance directly in Eclipse and Red Hat OpenShift Dev Spaces for developers making changes for a migration or modernization effort. It analyzes your projects using MTA, marks migration issues in the source code, provides guidance to fix the issues, and offers automatic code replacement when possible.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_2_2_access_your_development_environment"><a class="anchor" href="#_2_2_access_your_development_environment"></a>2.2. Access Your Development Environment</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You will be using Visual Studio Code (VS Code) based on <a href="https://developers.redhat.com/products/openshift-dev-spaces/overview" target="_blank" rel="noopener">Red Hat OpenShift Dev Spaces</a>. <strong>Changes to files are auto-saved every few seconds</strong>, so you don&#8217;t need to explicitly save changes.</p>
+</div>
+<div class="paragraph">
+<p>To get started, {{ DS_URL }}[access the Red Hat OpenShift Dev Spaces instance^] and select <strong>Log in with OpenShift</strong> button:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/login_with_openshift.png" alt="login" width="800">
+</div>
+</div>
+<div class="paragraph">
+<p>Type in the following credentail:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Username</strong>: <code>%USERID%</code></p>
+</li>
+<li>
+<p><strong>Password</strong>: <code>{openshift-password}</code></p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/che-login.png" alt="login" width="800">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>In case you see the <strong>Authorize Access</strong> page as below, select <strong>Allow selected permissions</strong> button.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/auth-access.png" alt="auth-access" width="800">
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Once you log in, you’ll be placed on the <strong>Create Workspace</strong> dashboard. Copy the following <code>Git Repo URL</code> and select <code>Create &amp; Open</code>.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Git Repo URL</strong>: <code><a href="https://github.com/RedHat-Middleware-Workshops/cloud-native-workshop-v2m1-labs/tree/ocp-4.13" class="bare">https://github.com/RedHat-Middleware-Workshops/cloud-native-workshop-v2m1-labs/tree/ocp-4.13</a></code></p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/ds-landing.png" alt="ds" width="800">
+</div>
+</div>
+<div class="paragraph">
+<p>A new window or tab in your web browser will open automatically to showcase the progess about <strong>Starting workspace quarkus-workshop</strong>. It takes about <strong>60</strong> seconds to finish the process.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/starting-workspace.png" alt="ds" width="800">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>In case you see this information page, select <code>Start your workspace</code> to continue  using your workspace.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/starting-workspace-info.png" alt="ds" width="800">
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>After a few seconds, you’ll be placed in the workspace.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/ds-workspace.png" alt="ds" width="800">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>In case you see this infomation page, check on <code>Trust the authors of all files in the parent folder 'projects'</code>. Then, select `Yes, I trust the authors.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/ds-trust-popup.png" alt="ds" width="800">
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>You&#8217;ll use all of these during the course of this workshop, so keep this browser tab open throughout. <strong>If things get weird, you can simply reload the browser tab to refresh the view.</strong></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_2_3_use_the_configuration_editor_to_setup_the_analysis"><a class="anchor" href="#_2_3_use_the_configuration_editor_to_setup_the_analysis"></a>2.3. Use the configuration editor to setup the analysis</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Click on <code>MTA Explorer</code> icon on the left. Then, a new MTA configuration will be shown up:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/mta_newconf.png" alt="MTA Landing Page" width="700">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>In case you see this popup, select <code>Download</code> button to download the windup command line tool into your VS Code server.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/ds-windup-cli.png" alt="ds" width="800">
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>To input source files and directories, click on <code>Add</code> then select <code>Open File Explorer</code>:</p>
+</div>
+<div class="paragraph">
+<p>Note that you might need to remove an existing input directory.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/mta-add-input.png" alt="MTA Add App" width="700">
+</div>
+</div>
+<div class="paragraph">
+<p>Open <code>projects &gt; cloud-native-workshop-v2m1-labs</code> then select <code>monolith</code> directory. Click on <code>Choose&#8230;&#8203;</code>:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/mta-add-opendir.png" alt="MTA Add App" width="700">
+</div>
+</div>
+<div class="paragraph">
+<p>Then you will see that <strong>/projects/cloud-native-workshop-v2m1-labs/monoilth</strong> directory is added in <em>--input</em> configuration.</p>
+</div>
+<div class="paragraph">
+<p>Be sure that <code>eap7</code> is already selected in <em>--target</em> server to migrate:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/mta-target.png" alt="MTA Add App" width="700">
+</div>
+</div>
+<div class="paragraph">
+<p>Click on <code>--source</code> to migrate from then select <code>weblogic</code>. Leave the other configurations:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/mta-source.png" alt="MTA Add App" width="700">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_2_4_run_an_analysis_report"><a class="anchor" href="#_2_4_run_an_analysis_report"></a>2.4. Run an analysis report</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Click on <code>Run</code> icon to analyze the WebLogic application. Note that if you don&#8217;t see the <em>Run</em> icon, you need to click on the <em>mtaConfiguration</em>:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/mta-run-report.png" alt="MTA Add App" width="700">
+</div>
+</div>
+<div class="paragraph">
+<p>Migration Toolkit for Applications (MTA) CLI will be executed automatically in a new terminal then it will take a few mins to complete the analysis. Click on <code>Open Report</code>:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/mta-analysis-complete.png" alt="MTA Add App" width="900">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_2_5_review_the_report"><a class="anchor" href="#_2_5_review_the_report"></a>2.5. Review the report</h2>
+<div class="sectionbody">
+<div class="imageblock">
+<div class="content">
+<img src="_images/mta_result_landing_page.png" alt="MTA Langing Page" width="900">
+</div>
+</div>
+<div class="paragraph">
+<p>The main landing page of the report lists the applications that were processed. Each row contains a high-level overview of the
+story points, number of incidents, and technologies encountered in that application.</p>
+</div>
+<div class="paragraph">
+<p><strong>Click on the <code>monolith</code> link</strong> to access details for the project:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/mta_project_overview.png" alt="MTA Project Overview" width="900">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_2_6_understanding_the_report"><a class="anchor" href="#_2_6_understanding_the_report"></a>2.6. Understanding the report</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Dashboard gives an overview of the entire application migration effort. It summarizes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The incidents and story points by category</p>
+</li>
+<li>
+<p>The incidents and story points by level of effort of the suggested changes</p>
+</li>
+<li>
+<p>The incidents by package</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Story points are an abstract metric commonly used in Agile software development to estimate the relative level of effort needed to
+implement a feature or change. Migration Toolkit for Application uses story points to express the level of effort needed to
+migrate particular application constructs, and the application as a whole. The level of effort will vary greatly depending on the
+size and complexity of the application(s) to migrate.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>You can use this report to estimate how easy/hard each app is, and make decisions about which apps to migrate, which to refactor, and which to leave alone. In this case we will do a straight migration to JBoss EAP.</p>
+</div>
+<div class="paragraph">
+<p>On to the next step to change the code!</p>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="1-introduction.html" class="query-params-link">Introduction</a></span>
+  <span class="next"><a href="3-migrate-to-eap.html" class="query-params-link">Migrate to EAP</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+</footer>
+<script src="../_/js/vendor/clipboard.js"></script>
+<script src="../_/js/site.js"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

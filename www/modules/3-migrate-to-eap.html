@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>3. Migrate to JBoss EAP - 30 minutes :: Modern Application Development Roadshow - Dev Track</title>
+    <link rel="prev" href="2-analyze-monolith.html">
+    <meta name="generator" content="Antora 3.1.5">
+    <link rel="stylesheet" href="../_/css/site.css">
+<link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com/en/technologies/cloud-computing/openshift" target="_blank"><img
+          src="../_/img/Logo-Red_Hat-OpenShift_4-A-Reverse-RGB.png" height="40px" alt="Red Hat OpenShift 4"></a>
+      <a class="navbar-item" href=".." style="color: white;"><h3>Modern Application Development Roadshow - Dev Track</h3></a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="modules" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html" class=" query-params-link">Modern Application Development Roadshow - Dev Track</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="1-introduction.html">Introduction</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="2-analyze-monolith.html">Analyze Monolith</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="3-migrate-to-eap.html">Migrate to EAP</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Modern Application Development Roadshow - Dev Track</span>
+    <span class="version">master</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">Modern Application Development Roadshow - Dev Track</span>
+      <ul class="versions">
+        <li class="version is-current">
+          <a href="index.html">master</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="1-introduction.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">Modern Application Development Roadshow - Dev Track</a></li>
+    <li><a href="3-migrate-to-eap.html">Migrate to EAP</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="file:///antora/content/modules/ROOT/pages/3-migrate-to-eap.adoc">Edit this Page</a></div>
+</div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">3. Migrate to JBoss EAP - 30 minutes</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this step you will migrate some Weblogic-specific code in the app to use standard (Jakarta EE) interfaces.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_3_1_jump_to_code"><a class="anchor" href="#_3_1_jump_to_code"></a>3.1. Jump to Code</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Let&#8217;s jump to code containing identified migration issues. Expand the <strong>monolith</strong> source project in the MTA explorer and navigate to <code>monolith &gt; src &gt; main &gt; java &gt; com &gt; redhat &gt; coolstore &gt; utils &gt; StartupListener.java</code>. Be sure to click the arrow next to the actual class name <code>StartupListener.java</code> to expand and show the Hints:</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+You can use <span class="keyseq"><kbd>CTRL</kbd>+<kbd>p</kbd></span> (or <span class="keyseq"><kbd>CMD</kbd>+<kbd>p</kbd></span> on Mac OSX) to quickly open a file.  Simply start typing the name of the file in the text box that appears and select your file from the list that is produced.
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/mta_project_issues.png" alt="mta" width="500">
+</div>
+</div>
+<div class="paragraph">
+<p>In the Explorer, MTA issues use an icon to indicate their severity level and status. The following table describes the meaning of the various icons:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/mta-issues-table.png" alt="mta" width="700">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_3_2_view_details_about_the_migration_issues"><a class="anchor" href="#_3_2_view_details_about_the_migration_issues"></a>3.2. View Details about the Migration Issues</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Let&#8217;s take a look at the details about the migration issue. Right-click on <code>WebLogic ApplicationLifecycleListenerEvent[rule-id:xxx]</code> in <em>Hints</em> of <em>StartupListener.java</em> file. Click on <code>View Details</code>:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/mta-issue-detail.png" alt="rhamt_project_issues" width="900">
+</div>
+</div>
+<div class="paragraph">
+<p>The WebLogic <code>ApplicationLifecycleListener</code> abstract class is used to perform functions or schedule jobs in Oracle WebLogic, like server start and stop. In this case we have code in the <code>postStart</code> and <code>preStop</code> methods which are executed after Weblogic starts up and before it shuts down, respectively.</p>
+</div>
+<div class="paragraph">
+<p>In Jakarta EE, there is no equivalent to intercept these events, but you can get equivalent
+functionality using a <em>Singleton EJB</em> with standard annotations, as suggested in the issue in the MTA report.</p>
+</div>
+<div class="paragraph">
+<p>We will use the <code>@Startup</code> annotation to tell the container to initialize the singleton session bean at application start. We
+will similarly use the <code>@PostConstruct</code> and <code>@PreDestroy</code> annotations to specify the methods to invoke at the start and end of
+the application lifecyle achieving the same result but without using proprietary interfaces.</p>
+</div>
+<div class="paragraph">
+<p>Using this method makes the code much more portable.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_3_3_fix_the_applicationlifecyclelistener_issues"><a class="anchor" href="#_3_3_fix_the_applicationlifecyclelistener_issues"></a>3.3. Fix the ApplicationLifecycleListener issues</h2>
+<div class="sectionbody">
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>In this section we&#8217;re going to deal with the following two issues from the report:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/report_applifecycle_issues.png" alt="Lifecycle Issues">
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>To begin we are fixing the issues under the Monolith application. Click on <code>WebLogic ApplicationLifecycleListenerEvent[rule-id:xxx]</code> in <em>Hints</em> of <em>StartupListener.java</em> file:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/mta-issue-open-code.png" alt="mta_project_issues" width="900">
+</div>
+</div>
+<div class="paragraph">
+<p>You can also navigate to the <code>cloud-native-workshop-v2m1-labs</code> folder in the project tree, then open the file <code>monolith/src/main/java/com/redhat/coolstore/utils/StartupListener.java</code> by clicking on it.</p>
+</div>
+<div class="paragraph">
+<p>Replace the file content with:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">package com.redhat.coolstore.utils;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.ejb.Startup;
+import javax.inject.Singleton;
+import javax.inject.Inject;
+import java.util.logging.Logger;
+
+@Singleton
+@Startup
+public class StartupListener {
+
+    @Inject
+    Logger log;
+
+    @PostConstruct
+    public void postStart() {
+        log.info("AppListener(postStart)");
+    }
+
+    @PreDestroy
+    public void preStop() {
+        log.info("AppListener(preStop)");
+    }
+
+}</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Where is the Save button? VS Code will autosave your changes, that is why you can’t find a SAVE button - no more losing code because you forgot to save. You can undo with <kbd>CTRL-Z</kbd> (or <kbd>CMD-Z</kbd> on a Mac) or by using the <code>Edit &#8594; Undo</code> menu option.</p>
+</div>
+<div class="paragraph">
+<p>In case you see the red lines in the source code, you can&#8217;t ignore it because they are the migration issues rather than compliation errors.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_3_4_test_the_build"><a class="anchor" href="#_3_4_test_the_build"></a>3.4. Test the build</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Open a Terminal window.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/new-terminal.png" alt="new-terminal" width="700">
+</div>
+</div>
+<div class="paragraph">
+<p>In the terminal, issue the following command to test the build:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">mvn -f $PROJECT_SOURCE/monolith clean package</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If it builds successfully (you will see <code>BUILD SUCCESS</code>), let’s move on to the next issue! If it does not compile, verify you made all the changes correctly and try the build again.</p>
+</div>
+<div class="listingblock console-output">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh">[INFO] --- maven-war-plugin:3.2.0:war (default-war) @ monolith ---
+[INFO] Packaging webapp
+[INFO] Assembling webapp [monolith] in [/projects/cloud-native-workshop-v2m1-labs/monolith/target/ROOT]
+[INFO] Processing war project
+[INFO] Copying webapp resources [/projects/cloud-native-workshop-v2m1-labs/monolith/src/main/webapp]
+[INFO] Webapp assembled in [841 msecs]
+[INFO] Building war: /projects/cloud-native-workshop-v2m1-labs/monolith/target/ROOT.war
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  7.333 s
+[INFO] Finished at: 2023-07-06T18:28:28Z
+[INFO] ------------------------------------------------------------------------</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_3_5_view_the_diffs"><a class="anchor" href="#_3_5_view_the_diffs"></a>3.5. View the diffs</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can review the changes you&#8217;ve made. On the left, click on the <em>Version Control</em> icon, which shows a list of the changed files. Double-click on <code>StartupListener.java</code> to view the differences you&#8217;ve made:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/ds-diffs.png" alt="diffs" width="800">
+</div>
+</div>
+<div class="paragraph">
+<p>VS Code keeps track (using Git) of the changes you make, and you can use version control to check in, update, and compare files as you change them.</p>
+</div>
+<div class="paragraph">
+<p>For now, go back to the <em>Explorer</em> tree and lets fix the remaining issues.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_3_6_fix_the_logger_issues"><a class="anchor" href="#_3_6_fix_the_logger_issues"></a>3.6. Fix the logger issues</h2>
+<div class="sectionbody">
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>In this section we&#8217;ll be looking to remediate this part of the migration report:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/report_logging_issues.png" alt="Logging Issues">
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Some of our application makes use of Weblogic-specific logging methods like the <code>NonCatalogLogger</code>, which offer features related to logging of
+internationalized content, and client-server logging.</p>
+</div>
+<div class="paragraph">
+<p>The WebLogic <code>NonCatalogLogger</code> is not supported on JBoss EAP (or any other Java EE platform), and should be migrated to a
+supported logging framework, such as the JDK Logger or JBoss Logging.</p>
+</div>
+<div class="paragraph">
+<p>We will use the standard Java Logging framework, a much more portable framework. The framework also
+<a href="https://docs.oracle.com/javase/8/docs/technotes/guides/logging/overview.html#a1.17" target="_blank" rel="noopener">supports
+internationalization</a> if needed.</p>
+</div>
+<div class="paragraph">
+<p>In the same <code>monolith</code> directory, open the <code>src/main/java/com/redhat/coolstore/service/OrderServiceMDB.java</code> file and replace its contents with:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">package com.redhat.coolstore.service;
+
+import javax.ejb.ActivationConfigProperty;
+import javax.ejb.MessageDriven;
+import javax.inject.Inject;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import javax.jms.TextMessage;
+
+import com.redhat.coolstore.model.Order;
+import com.redhat.coolstore.utils.Transformers;
+
+import java.util.logging.Logger;
+
+@MessageDriven(name = "OrderServiceMDB", activationConfig = {
+    @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "topic/orders"),
+    @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Topic"),
+    @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge")})
+public class OrderServiceMDB implements MessageListener {
+
+    @Inject
+    OrderService orderService;
+
+    @Inject
+    CatalogService catalogService;
+
+    private Logger log = Logger.getLogger(OrderServiceMDB.class.getName());
+
+    @Override
+    public void onMessage(Message rcvMessage) {
+        TextMessage msg = null;
+        try {
+                if (rcvMessage instanceof TextMessage) {
+                        msg = (TextMessage) rcvMessage;
+                        String orderStr = msg.getBody(String.class);
+                        log.info("Received order: " + orderStr);
+                        Order order = Transformers.jsonToOrder(orderStr);
+                        log.info("Order object is " + order);
+                        orderService.save(order);
+                        order.getItemList().forEach(orderItem -&gt; {
+                            catalogService.updateInventoryItems(orderItem.getProductId(), orderItem.getQuantity());
+                        });
+                }
+        } catch (JMSException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>That one was pretty easy.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_3_7_test_the_build"><a class="anchor" href="#_3_7_test_the_build"></a>3.7. Test the build</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Build and package the app again just as before:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">mvn -f $PROJECT_SOURCE/monolith clean package</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If builds successfully (you will see <code>BUILD SUCCESS</code>), then let’s move on to the next issue! If it does not compile, verify you made all the changes correctly and try the build again.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_3_8_remove_the_weblogic_ejb_descriptors"><a class="anchor" href="#_3_8_remove_the_weblogic_ejb_descriptors"></a>3.8. Remove the Weblogic EJB Descriptors</h2>
+<div class="sectionbody">
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>In this and the following few sections we&#8217;ll be addressing this part of the report</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/report_mdb_issues.png" alt="MDB Issues" width="1100">
+</div>
+</div>
+<div class="paragraph">
+<p>To highlight in a little more detail:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Call of JNDI lookup</code> - Our apps use a weblogic-specific
+<a href="https://en.wikipedia.org/wiki/Java_Naming_and_Directory_Interface" target="_blank" rel="noopener">JNDI</a> lookup scheme.</p>
+</li>
+<li>
+<p><code>Proprietary InitialContext initialization</code> - Weblogic has a very different lookup mechanism for InitialContext objects</p>
+</li>
+<li>
+<p><code>WebLogic InitialContextFactory</code> - This is related to the above, essentially a Weblogic proprietary mechanism</p>
+</li>
+<li>
+<p><code>WebLogic T3 JNDI binding</code> - The way EJBs communicate in Weblogic is over T2, a proprietary implementation of Weblogic.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>All of the above interfaces have equivalents in JBoss, however they are greatly simplified and overkill for our application which uses JBoss EAP’s internal message queue implementation provided by <a href="https://activemq.apache.org/artemis/" target="_blank" rel="noopener">Apache ActiveMQ Artemis</a>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="title">A word about JMS</div>
+<div class="paragraph">
+<p>In this final step we will again migrate some Weblogic-specific code in the app to use standard Java EE interfaces, and one JBoss-specific interface.</p>
+</div>
+<div class="paragraph">
+<p>Our application uses <a href="https://en.wikipedia.org/wiki/Java_Message_Service" target="_blank" rel="noopener">JMS</a> to
+communicate. Each time an order is placed in the application, a JMS message is sent to a JMS Topic, which is then consumed by
+listeners (subscribers) to that topic to process the order using
+<a href="https://docs.oracle.com/javaee/6/tutorial/doc/gipko.html" target="_blank" rel="noopener">Message-driven beans</a>, a form of
+Enterprise JavaBeans (EJBs) that allow Java EE applications to process messages asynchronously.</p>
+</div>
+<div class="paragraph">
+<p>In this case, <code>InventoryNotificationMDB</code> is subscribed to and listening for messages from <code>ShoppingCartService</code>. When an order
+comes through the <code>ShoppingCartService</code>, a message is placed on the JMS Topic. At that point, the <code>InventoryNotificationMDB</code>
+receives a message and if the inventory service is below a pre-defined threshold, sends a message to the log indicating that the
+supplier of the product needs to be notified.</p>
+</div>
+<div class="paragraph">
+<p>Unfortunately this MDB was written a while ago and makes use of weblogic-proprietary interfaces to configure and operate the MDB.
+MTA has flagged this and reported it using a number of issues.</p>
+</div>
+<div class="paragraph">
+<p>JBoss EAP provides an even more efficient and declarative way to configure and manage the lifecycle of MDBs. In this case, we can
+use annotations to provide the necessary initialization and configuration logic and settings. We will use the <code>@MessageDriven</code>
+and <code>@ActivationConfigProperty</code> annotations, along with the <code>MessageListener</code> interfaces to provide the same functionality as
+from Weblogic.</p>
+</div>
+<div class="paragraph">
+<p>Much of Weblogic’s interfaces for EJB components like MDBs reside in Weblogic descriptor XML files. Use <span class="keyseq"><kbd>CTRL</kbd>+<kbd>p</kbd></span> (or <span class="keyseq"><kbd>CMD</kbd>+<kbd>p</kbd></span> on a Mac) to Quickly Open
+<code>src/main/webapp/WEB-INF/weblogic-ejb-jar.xml</code> to see one of these descriptors. There are many different configuration
+possibilities for EJBs and MDBs in this file, but luckily our application only uses one of them, namely it configures
+<code>&lt;trans-timeout-seconds&gt;</code> to 30, which means that if a given transaction within an MDB operation takes too long to complete
+(over 30 seconds), then the transaction is rolled back and exceptions are thrown. This interface is Weblogic-specific so we’ll
+need to find an equivalent in JBoss.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The first step is to remove the unneeded <code>weblogic-ejb-jar.xml</code> file from the <strong>Project Explorer</strong> (not the <strong>Migration Assistant</strong>). This file is proprietary to Weblogic and not recognized or processed by JBoss EAP. Delete the file by right-clicking on the <code>src/main/webapp/WEB-INF/weblogic-ejb-jar.xml</code> file from the <strong>Project Explorer</strong> and choosing <strong>Delete</strong>, and click <strong>OK</strong>.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If you have the tab for the <code>weblogic-ejb-jar.xml</code> file open (or handy) you can quickly find it in the Project Explorer by right-clicking on the tab and then selecting <strong>Reveal in Explorer</strong> as shown.  You can also use the <span class="keyseq"><kbd>ALT</kbd>+<kbd>R</kbd></span> (or <span class="keyseq"><kbd>Option</kbd>+<kbd>R</kbd></span> on Mac).</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="_images/reveal_in_explorer.png" alt="reveal-in-explorer" width="600"></span></p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/ds-delete-jar.png" alt="ds-convert" width="500">
+</div>
+</div>
+<div class="paragraph">
+<p>While we’re at it, let’s remove the stub weblogic implementation classes added as part of the scenario.</p>
+</div>
+<div class="paragraph">
+<p>Whilst still in the Project Explorer, right-click on the <code>src/main/java/weblogic</code> folder and select <strong>Delete</strong> to delete the folder:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/ds-delete-weblogic.png" alt="ds-convert" width="500">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_3_9_fix_the_code"><a class="anchor" href="#_3_9_fix_the_code"></a>3.9. Fix the code</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Use <span class="keyseq"><kbd>CTRL</kbd>+<kbd>p</kbd></span> (or <span class="keyseq"><kbd>CMD</kbd>+<kbd>p</kbd></span> on a Mac) to Quickly Open the <code>monolith/src/main/java/com/redhat/coolstore/service/InventoryNotificationMDB.java</code> file and replace its contents with:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">package com.redhat.coolstore.service;
+
+import com.redhat.coolstore.model.Order;
+import com.redhat.coolstore.utils.Transformers;
+
+import javax.ejb.ActivationConfigProperty;
+import javax.ejb.MessageDriven;
+import javax.inject.Inject;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import javax.jms.TextMessage;
+import java.util.logging.Logger;
+
+@MessageDriven(name = "InventoryNotificationMDB", activationConfig = {
+        @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "topic/orders"),
+        @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Topic"),
+        @ActivationConfigProperty(propertyName = "transactionTimeout", propertyValue = "30"), <i class="conum" data-value="1"></i><b>(1)</b>
+        @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge")})
+public class InventoryNotificationMDB implements MessageListener {
+
+    private static final int LOW_THRESHOLD = 50;
+
+    @Inject
+    private CatalogService catalogService;
+
+    @Inject
+    private Logger log;
+
+    public void onMessage(Message rcvMessage) {
+        TextMessage msg;
+        {
+            try {
+                if (rcvMessage instanceof TextMessage) {
+                    msg = (TextMessage) rcvMessage;
+                    String orderStr = msg.getBody(String.class);
+                    Order order = Transformers.jsonToOrder(orderStr);
+                    order.getItemList().forEach(orderItem -&gt; {
+                        int old_quantity = catalogService.getCatalogItemById(orderItem.getProductId()).getInventory().getQuantity();
+                        int new_quantity = old_quantity - orderItem.getQuantity();
+                        if (new_quantity &lt; LOW_THRESHOLD) {
+                            log.warning("Inventory for item " + orderItem.getProductId() + " is below threshold (" + LOW_THRESHOLD + "), contact supplier!");
+                        }
+                    });
+                }
+
+
+            } catch (JMSException jmse) {
+                System.err.println("An exception occurred: " + jmse.getMessage());
+            }
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Remember the <code>&lt;trans-timeout-seconds&gt;</code> setting from the <code>weblogic-ejb-jar.xml</code> file? This is now set as an
+<code>@ActivationConfigProperty</code> in the new code. There are pros and cons to using annotations vs. XML descriptors and care should be taken to consider the needs of the application.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Your MDB should now be properly migrated to JBoss EAP.</p>
+</div>
+<div class="paragraph">
+<p>Lastly, remove Maven dependency on <strong>org.jboss.spec.javax.rmi:jboss-rmi-api_1.0_spec</strong>. In JBoss EAP 7.3(or later), artifact with groupId <em>org.jboss.spec.javax.rmi</em> and artifactId <em>jboss-rmi-api_1.0_spec</em> are unsupported dependencies. Remove the following dependency in <code>monolith/pom.xml</code>:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/mta-remove-dependency.png" alt="rhamt_rerun_analysis_report" width="700">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_3_10_test_the_build"><a class="anchor" href="#_3_10_test_the_build"></a>3.10. Test the build</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Build once again:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">mvn -f $PROJECT_SOURCE/monolith clean package</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If builds successfully (you will see <code>BUILD SUCCESS</code>). If it does not compile, verify you
+made all the changes correctly and try the build again.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_3_11_re_run_the_mta_report"><a class="anchor" href="#_3_11_re_run_the_mta_report"></a>3.11. Re-run the MTA report</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this step we will re-run the MTA report to verify our migration was successful.</p>
+</div>
+<div class="paragraph">
+<p>Click on <code>Run</code> icon to analyze the WebLogic application:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/mta-rerun-report.png" alt="rhamt_rerun_analysis_report" width="700">
+</div>
+</div>
+<div class="paragraph">
+<p>Migration Toolkit for Applications (MTA) CLI will be executed automatically in a new terminal then it will take a few mins to complete the analysis. Click on <code>Open Report</code>:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/mta-analysis-rerun-complete.png" alt="MTA Add App" width="700">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If it is taking too long, feel free to skip the next section and proceed to step <strong>13</strong> and return back to the analysis later to confirm that you
+eliminated all the issues.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_3_12_view_the_results"><a class="anchor" href="#_3_12_view_the_results"></a>3.12. View the results</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Click on the latest result to go to the report web page and verify that it now reports 0 Story Points:</p>
+</div>
+<div class="paragraph">
+<p>You have successfully migrated this app to JBoss EAP, congratulations!</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/mta_project_issues_story.png" alt="mta_project_issues_story" width="700">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>You should be aware that this type of migration is more involved than the previous steps, and in real world applications it will
+rarely be as simple as changing one line at a time for a migration. Consult the
+<a href="https://access.redhat.com/documentation/en-us/migration_toolkit_for_applications/" target="_blank" rel="noopener">MTA documentation</a> for more
+detail on Red Hat’s Application Migration strategies or contact your local Red Hat representative to learn more about how Red Hat
+can help you on your migration path.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_3_13_test_the_application_on_jboss_eap_locally"><a class="anchor" href="#_3_13_test_the_application_on_jboss_eap_locally"></a>3.13. Test the application on JBoss EAP locally</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this development environment (GitPod), a JBoss EAP server is already running with a PostgreSQL database. Click on <code>Start Wildfly server</code> terminal in the VS Code, take a look at if the EAP server is running properly:</p>
+</div>
+<div class="paragraph">
+<p>&lt;p align="center"&gt;
+&lt;img src="../img/eap-running.png" width=700 align=center&gt;
+&lt;/p&gt;</p>
+</div>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="eap-running.png" alt="eap-running" width="700">
+</div>
+</div>
+<div class="paragraph">
+<p>Copy the packaged application (.war file) to the running EAP server. Run the following command in the <code>Pre-warm Maven</code> terminal in GitPod:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cp $GITPOD_REPO_ROOT/target/ROOT.war /workspace/deployments/</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Go back to the <code>Start Wildfly server</code> terminal in GitPod where EAP was started for you, and you&#8217;ll see <code>ROOT.war</code> is deployed:</p>
+</div>
+<div class="paragraph">
+<p>&lt;p align="center"&gt;
+&lt;img src="../img/eap-deployed.png" width=700 align=center&gt;
+&lt;/p&gt;</p>
+</div>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="eap-deployed.png" alt="eap-deployed" width="700">
+</div>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p><strong>Hint:</strong> If you accidentally closed the terminal that was running Wildfly, you can restart Wildfly with <code>$JBOSS_HOME/bin/standalone.sh -b 0.0.0.0</code></p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>You can also find out that the inventory data is created in PostgreSQL. Run the following <code>psql</code> command in the GitPod Terminal:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">PGPASSWORD=coolstore123 psql -h localhost -U coolstore monolith -c 'select itemid, quantity from INVENTORY;'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The output should look like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sh hljs" data-lang="sh"> itemid | quantity
+--------+----------
+ 329299 |      736
+ 329199 |      512
+ 165613 |      256
+ 165614 |       54
+ 165954 |       87
+ 444434 |      443
+ 444435 |      600
+ 444436 |      230
+ 444437 |      300
+(9 rows)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_congratulations"><a class="anchor" href="#_congratulations"></a>Congratulations!</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Now you are using the same application that we built locally on OpenShift. That wasn’t too hard right?</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/coolstore_web.png" alt="coolstore_web" width="700">
+</div>
+</div>
+<div class="sect2">
+<h3 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h3>
+<div class="paragraph">
+<p>Now that you have migrated an existing Java EE app to the cloud with JBoss and OpenShift, you are ready to start modernizing the application by breaking the monolith into smaller microservices in incremental steps, and employing modern techniques to ensure the application runs well in a distributed and containerized environment.</p>
+</div>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="2-analyze-monolith.html" class="query-params-link">Analyze Monolith</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+</footer>
+<script src="../_/js/vendor/clipboard.js"></script>
+<script src="../_/js/site.js"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

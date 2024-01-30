@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>1. Introduction - 5 minutes :: Modern Application Development Roadshow - Dev Track</title>
+    <link rel="prev" href="index.html">
+    <link rel="next" href="2-analyze-monolith.html">
+    <meta name="generator" content="Antora 3.1.5">
+    <link rel="stylesheet" href="../_/css/site.css">
+<link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com/en/technologies/cloud-computing/openshift" target="_blank"><img
+          src="../_/img/Logo-Red_Hat-OpenShift_4-A-Reverse-RGB.png" height="40px" alt="Red Hat OpenShift 4"></a>
+      <a class="navbar-item" href=".." style="color: white;"><h3>Modern Application Development Roadshow - Dev Track</h3></a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="modules" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html" class=" query-params-link">Modern Application Development Roadshow - Dev Track</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="1-introduction.html">Introduction</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="2-analyze-monolith.html">Analyze Monolith</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="3-migrate-to-eap.html">Migrate to EAP</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Modern Application Development Roadshow - Dev Track</span>
+    <span class="version">master</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">Modern Application Development Roadshow - Dev Track</span>
+      <ul class="versions">
+        <li class="version is-current">
+          <a href="index.html">master</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="1-introduction.html" class="home-link is-current"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">Modern Application Development Roadshow - Dev Track</a></li>
+    <li><a href="1-introduction.html">Introduction</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="file:///antora/content/modules/ROOT/pages/1-introduction.adoc">Edit this Page</a></div>
+</div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">1. Introduction - 5 minutes</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Globex has been in business for a number of years with a core retail application written for a proprietary, expensive app server. They are now all-in on modernization to save costs and update to newer, open source products</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_1_first_step_confirm_your_username"><a class="anchor" href="#_1_1_first_step_confirm_your_username"></a>1.1. First Step: Confirm Your Username!</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Look in the box at the top of your screen. Is your username set already? If so it will look like this:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/alreadyset.png" alt="alreadyset">
+</div>
+</div>
+<div class="paragraph">
+<p>If your <code>username</code> is properly set, then you can move on. <strong>If not, in the above box, enter the user ID you were assigned</strong> like this:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/setuser.png" alt="setuser">
+</div>
+</div>
+<div class="paragraph">
+<p>This will customize the links and copy/paste code for this workshop. If you accidentally type the wrong username, just update your username in the URL parameters (e.g. ` 1-introduction.html?USERID=%USERID% ` )</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>You have to use <strong>an unique username</strong> (e.g. <code>%USERID%</code>) while you&#8217;re running the hands-on labs. For example, you need to deploy applications to your own project (e.g. retail-%USERID%).</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_2_click_to_copy"><a class="anchor" href="#_1_2_click_to_copy"></a>1.2. Click-to-Copy</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You will see various code and command blocks throughout these exercises which can be copy/pasted directly by clicking anywhere on the block of text:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">/* A sample Java snippet that you can copy/paste by clicking */
+public class CopyMeDirectly {
+    public static void main(String[] args) {
+        System.out.println("You can copy this whole class with a click!");
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Simply click once and the whole block is copied to your clipboard, ready to be pasted with <span class="keyseq"><kbd>CTRL</kbd>+<kbd>V</kbd></span> (or <span class="keyseq"><kbd>Command</kbd>+<kbd>V</kbd></span> on Mac OS).</p>
+</div>
+<div class="paragraph">
+<p>There are also Linux shell commands that can also be copied and pasted into a Terminal in your Development Environment:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">echo "This is a bash shell command that you can copy/paste by clicking"</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_3_the_workshop_environment_you_are_using"><a class="anchor" href="#_1_3_the_workshop_environment_you_are_using"></a>1.3. The Workshop Environment You Are Using</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Your workshop environment consists of several components which have been pre-installed and are ready to use. Depending on which
+parts of the workshop you’re doing, you will use one or more of:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.redhat.com/en/technologies/jboss-middleware/application-platform" target="_blank" rel="noopener">Red Hat JBoss Enterprise Application Platform</a> delivers enterprise-grade security, performance, and scalability in any environment. Whether on-premise; virtual; or in private, public, or hybrid clouds, JBoss EAP can help you deliver apps faster, everywhere. You&#8217;ll migrate the existing monolithic Java application on WebLogic to a cloud-native Java application server, JBoss EAP.</p>
+</li>
+<li>
+<p><a href="https://developers.redhat.com/products/openshift-dev-spaces/overview" target="_blank" rel="noopener">Red Hat OpenShift Dev Spaces</a> built on the open source Eclipse Che project, Red Hat OpenShift Dev Spaces uses Kubernetes and containers to provide developers and other IT team members with a consistent, secure, and zero-configuration development environment. The experience is as fast and familiar as an integrated development environment (IDE) on your laptop. You’ll write, test, and deploy code from here.</p>
+</li>
+<li>
+<p><a href="https://developers.redhat.com/products/mta/overview" target="_blank" rel="noopener">Migration Toolkit for Applications</a>  helps development teams modernize and migrate their applications to Red Hat OpenShift. It provides a set of tools and best practices to accelerate the journey to Kubernetes.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You’ll be provided selectable URLs throughout the workshop to access the services that have been installed for you.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_congratulations"><a class="anchor" href="#_congratulations"></a>Congratulations!</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You have now successfully confirmed your workshop environment with Red Hat tools and products you will use today.</p>
+</div>
+<div class="paragraph">
+<p>In the next step, you&#8217;ll begin the modernization process by analyzing the monolithic applications to identify issues and risks that will need to be considered as during the modernization journey.</p>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="index.html" class="query-params-link">Modern Application Development Roadshow - Dev Track</a></span>
+  <span class="next"><a href="2-analyze-monolith.html" class="query-params-link">Analyze Monolith</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+</footer>
+<script src="../_/js/vendor/clipboard.js"></script>
+<script src="../_/js/site.js"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
