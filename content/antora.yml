@@ -1,6 +1,11 @@
-name: mad-dev-guides-mig-eap
-title: Module CHS - Migration to EAP
-version: main
+name: modules
+title: Modern Application Development Roadshow - Dev Track
+version: master
 nav:
-  - modules/ROOT/nav.adoc
-start_page: ROOT:1-introduction.adoc
+- modules/ROOT/nav.adoc
+asciidoc:
+  attributes:
+    lab_name: Modern Application Development Roadshow - Dev Track
+    release_version: master
+    page-pagination: true  
+    experimental: true

@@ -1,30 +1,35 @@
-runtime:
-  cache_dir: ./.cache/antora
-
+---
 site:
   title: Modern Application Development Roadshow - Dev Track
-  url: http://localhost:3000
-  start_page: mad-dev-guides-mig-eap::1-introduction.adoc
+  start_page: modules::1-introduction.adoc
+
 content:
   sources:
-    - url: .
-      branches: HEAD
-      start_path: content
+  - url: .
+    branches: HEAD
+    start_path: content
 
 asciidoc:
   attributes:
-    experimental: true
+    lab_name: Modern Application Development Roadshow - Dev Track
+    release-version: master
     page-pagination: true
-    openshift-password: openshift
   extensions:
-    - ./content/lib/remote-include-processor.js
-    - ./content/lib/tab-block.js
+  - ./content/supplemental-ui/lib/tab-block.js
+  - ./content/supplemental-ui/lib/remote-include-processor.js
 
 ui:
   bundle:
-    url: https://github.com/danieloh30/course-ui/raw/main/ui-bundle-fix-rexp.zip
+    url: https://github.com/danieloh30/mad-bundle-ui/raw/main/mad-bundle-ui.zip
     snapshot: true
-  supplemental_files: ./content/supplemental-ui
+  # supplemental_files:
+  #   - path: ./content/supplemental-ui
+  #   - path: .nojekyll
+  #   - path: ui.yml
+  #     contents: "static_files: [ .nojekyll ]"
+
+runtime:
+  cache_dir: ./.cache/antora
 
 output:
-  dir: ./gh-pages
+  dir: ./www
