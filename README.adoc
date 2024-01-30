@@ -1,5 +1,5 @@
 # Modern App Dev Roadshow Dev Track
 
-## Module CHS: Migration to EAP
+## Module CHS: Migration to JBoss EAP
 
 Story: Globex has been in business for several years with a core retail application written for a proprietary, expensive app server. They are now all-in on modernization to save costs and update to newer, open source products.
