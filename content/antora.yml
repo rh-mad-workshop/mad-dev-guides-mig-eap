@@ -1,11 +1,11 @@
 name: modules
-title: Modern Application Development Roadshow - Dev Track
+title: Migration to JBoss EAP
 version: master
 nav:
 - modules/ROOT/nav.adoc
 asciidoc:
   attributes:
-    lab_name: Modern Application Development Roadshow - Dev Track
+    lab_name: Migration to JBoss EAP
     release_version: master
     page-pagination: true  
     experimental: true
